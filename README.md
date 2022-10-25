@@ -12,15 +12,6 @@ create venv - python -m venv folder_name
 activate using - venvpdfapi\Scripts\activate.bat from a cmd prompt.
 pip freeze > requirements.txt
 
-# Space creds:
-
-https://apifile.nyc3.digitaloceanspaces.com
-
-key1
-DO00Z7GDQXXVUGZHXCPQ
-
-secret
-lRu/sqs9X6djMnb8UL8WWuFJQewdGCNhMQG/Ln5fj0w
 
 # Auth
 
