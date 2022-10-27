@@ -33,7 +33,7 @@ def create_UUID_folder():
 def spaces_upload_file(fPath, filename, filesuffix):
     """# Upload a File to a Space"""
     folder_name = create_UUID_folder()
-    upload_fname = f'{folder_name}/{filename}{filesuffix}'
+    upload_fname = f'{folder_name}/{str(filename)}{filesuffix}'
 
     try:
         up = client.upload_file(fPath, # Path to local file
@@ -55,14 +55,7 @@ def spaces_presigned_url(upload_fname):
     except ClientError as e:
         print(e)
         raise HTTPException(status_code=404, detail="Error: Getting uploaded file url")
-        #     logging.error(e)
-        #     return None
 
-        # # The response contains the presigned URL
-        # return response
-    #pdb.set_trace()
-#     print(url)
-# spaces_upload_file()
 
 """# Get bucket/space name"""
 

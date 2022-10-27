@@ -28,3 +28,6 @@ app = FastAPI(swagger_ui_parameters={"defaultModelsExpandDepth": -1}, docs_url=N
 #https://stackoverflow.com/questions/71516140/fastapi-runs-api-calls-in-serial-instead-of-parallel-fashion/71517830#71517830
 # https://fastapi.tiangolo.com/async/#path-operation-functions
 #https://medium.com/geekculture/communicate-via-json-payload-and-upload-files-in-fastapi-244bdbc447dd
+
+# Docs
+https://squidfunk.github.io/mkdocs-material/
