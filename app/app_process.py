@@ -68,37 +68,32 @@ def wordToPDF_process(tmp_path, td):
         print(e)
         raise HTTPException(status_code=404, detail="There was an error protecting the file")
 
-def deletePDF_process(tmp_path, td, tmp_suffix, pages):
+def deletePDF_process(tmp_path, pages):
 
-    #tmp_save = NamedTemporaryFile(dir=td, delete=False, prefix='unlocked-', suffix=tmp_suffix) 
     t_path=Path(tmp_path)
     save_path = Path.joinpath(t_path.parent, "deleted.pdf")
     try:
-        formatted_page_numbers = pages.replace(" ", "").split(',')
-        num_list = []
+        page_list = formated_pages_list(pages)
 
-        for x in formatted_page_numbers:
-            if '-' in x:
-                while True:
-                    try:
-                        num1 = int(x.split("-")[0])
-                        num2 = int(x.split("-")[1])
+        with fitz.open(tmp_path) as file_handle:
+            file_handle.delete_pages(page_list)
+            file_handle.save(save_path, garbage=3, deflate=True)
 
-                        for i in range(num1+1, num2): # iterate over the range between first number and second number. Add 1 to num1 so that num1 is not included in list
-                            num_list.append(i) 
-                        break
-                    except:
-                        print("Input must be a number. Try again.")
-            if not '-' in x:
-                num_list.append(int(x)-1)
+        return save_path
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=404, detail="There was an error protecting the file")
 
-        num_list.sort()
+def extractPDF_process(tmp_path, pages):
 
-        #pdb.set_trace()
+    t_path=Path(tmp_path)
+    save_path = Path.joinpath(t_path.parent, "extracted.pdf")
+    try:
+        page_list = formated_pages_list(pages)
 
-        file_handle = fitz.open(tmp_path)
-        file_handle.delete_pages(num_list)
-        file_handle.save(save_path)
+        with fitz.open(tmp_path) as file_handle:
+            file_handle.select(page_list)
+            file_handle.save(save_path, garbage=3, deflate=True)
 
         return save_path
     except Exception as e:
@@ -133,3 +128,27 @@ def save_upload_file_tmp(td, upload_file: UploadFile) -> Path:
         raise HTTPException(status_code=404, detail="There was an error saving the file")
     finally:
         upload_file.file.close()   
+
+def formated_pages_list(pages):
+    """Used for Delete and Extract PDF features.
+        Taskes user provided pages, and returns a list of generated numbers.
+    """
+    formatted_page_numbers = pages.replace(" ", "").split(',')
+    num_list = []
+
+    for x in formatted_page_numbers:
+        if '-' in x:
+            while True:
+                try:
+                    num1 = int(x.split("-")[0])
+                    num2 = int(x.split("-")[1])
+
+                    for i in range(num1+1, num2): # iterate over the range between first number and second number. Add 1 to num1 so that num1 is not included in list
+                        num_list.append(i) 
+                    break
+                except:
+                    print("Input must be a number. Try again.")
+        if not '-' in x:
+            num_list.append(int(x)-1)
+    num_list.sort()
+    return num_list

@@ -8,11 +8,18 @@ pdfapi - fastapi api
 https://www.geeksforgeeks.org/create-virtual-environment-using-venv-python/
 https://www.youtube.com/watch?v=APOPm01BVrk&ab_channel=CoreySchafer
 
-create venv - python -m venv folder_name
-activate using - venvpdfapi\Scripts\activate.bat from a cmd prompt.
-pip freeze > requirements.txt
+Steps to create and use a venv:
+    create venv : python -m venv folder_name
+    activate using - venvpdfapi\Scripts\activate.bat from a cmd prompt.
+    pip freeze > requirements.txt
 
-
+Create a new Django site:
+    Once venv is created, inside virtual directory run - pip install django
+    check if django was installed properly using "django-admin"
+    Then, start a project by "django-admin startproject calculator ."  dot is to create a single folder.
+    To use different port to run the server - python manage.py runserver 9000 , once executed check if the localsite is up and running.
+    STart an app. To start an app run "python manage.py startapp abcd"
+    Once an app is created register it by adding it to Installed Apps in settings.py of the created project folder.
 # Auth
 
 https://itsjoshcampos.codes/fast-api-api-key-authorization#heading-setup-an-api-key-environment-variable
