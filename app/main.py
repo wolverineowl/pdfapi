@@ -60,13 +60,12 @@ async def rotate_pdf_view(rotateby = Body(...), file: UploadFile = File(...)): #
     file: a .pdf file.
 
     """
-    #pdb.set_trace()
     formated_original_filename_stem = "".join([x if x.isalnum() else "_" for x in Path(file.filename).stem])
     try:
         with TemporaryDirectory() as td:
             tmp_path, tmp_stem, tmp_suffix = save_upload_file_tmp(td, file)        
 
-            rotate_filePath = rotatePDF_process(tmp_path, td, tmp_suffix, rotateby)
+            rotate_filePath = rotatePDF_process(tmp_path, td, tmp_suffix, int(rotateby))
 
             uploaded_filePath = spaces_upload_file(rotate_filePath, f'rotated-{formated_original_filename_stem}', tmp_suffix)
             uploaded_url = spaces_presigned_url(uploaded_filePath)

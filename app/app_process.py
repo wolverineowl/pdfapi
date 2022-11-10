@@ -8,7 +8,6 @@ from docx2pdf import convert
 import fitz
 
 def rotatePDF_process(tmp_path, td, tmp_suffix, rotateby_Degree):
-
     tmp_save = NamedTemporaryFile(dir=td, delete=False, prefix='rotate-', suffix=tmp_suffix)
     try:
         with Pdf.open(tmp_path) as pdffile:
