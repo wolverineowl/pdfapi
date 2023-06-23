@@ -7,6 +7,8 @@ from app_process import *
 from app_spaces import *
 import auth
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
+
 load_dotenv()
 
 app = FastAPI()
@@ -20,6 +22,28 @@ class FileAttrib(BaseModel):
 # async def get_body(request: Request):
 #     pdb.set_trace()
 #     return request.json()
+
+from fastapi import FastAPI, File, UploadFile
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.post("/files/")
+async def create_file(file: bytes = File()):
+    return {"file_size": len(file)}
+
+
+@app.post("/uploadfile/")
+async def create_upload_file(file: UploadFile):
+    return {"filename": file.filename}
+
 
 @app.post('/test')
 async def update_item(payload: dict = Body(...)):
